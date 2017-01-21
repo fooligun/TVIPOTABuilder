@@ -1,5 +1,5 @@
 import os, shutil, urllib.request, sys
-rootDir = os.path.dirname(__file__) + "/firmware"
+rootDir = os.path.dirname(os.path.abspath(__file__)) + "/stb"
 provisionUrl = "raduga.tv/download/tvip"
 shutil.rmtree(rootDir, True)
 os.mkdir(rootDir, 0o777)
@@ -14,12 +14,12 @@ signPk8 = rootDir + "/key.pk8"
 
 dirs = {
     "s410": {
-        "linux-qt": ["beta", "release"],
-        "android": ["beta", "release"]
+        "linux-qt": ["release"],
+        "android": ["release"]
     },
     "s412": {
-        "linux-qt": ["beta", "release"],
-        "android": ["beta", "release"]
+        "linux-qt": ["release"],
+        "android": ["release"]
     }
 }
 
