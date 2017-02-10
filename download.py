@@ -1,6 +1,7 @@
 import os, shutil, urllib.request, sys
 rootDir = os.path.dirname(os.path.abspath(__file__)) + "/stb"
-provisionUrl = "raduga.tv/download/tvip"
+provisionUrl = "raduga.tv/download/update/tvip/"
+updateUrl = "raduga.tv/download/tvip/"
 shutil.rmtree(rootDir, True)
 os.mkdir(rootDir, 0o777)
 os.chdir(rootDir)
@@ -13,13 +14,21 @@ signPem = rootDir + "/key.x509.pem"
 signPk8 = rootDir + "/key.pk8"
 
 dirs = {
+    "s412": {
+         "linux-qt": ["release"],
+         "android": ["release"]
+    },
     "s410": {
         "linux-qt": ["release"],
         "android": ["release"]
     },
-    "s412": {
+    "s410a": {
         "linux-qt": ["release"],
-        "android": ["release"]
+         "android": ["release"]
+    },
+    "s412a": {
+        "linux-qt": ["release"],
+         "android": ["release"]
     }
 }
 
@@ -37,6 +46,7 @@ for stb in dirs:
             #download ota
             downloadUrl = "http://update.tvip.ru/stb/" + stb + "/" + systems + "/" + versions + "/tvip_firmware.ota.zip"
             downloadFile = versionDir + "/def_tvip_firmware.ota.zip"
+            print("Download " + downloadUrl)
             urllib.request.urlretrieve(downloadUrl, downloadFile)
 
             #change configs files
@@ -44,7 +54,7 @@ for stb in dirs:
             os.system("unzip -o -q " + downloadFile + " -d firmware")
             systemsConfigsPath = versionDir + "/firmware/system/etc/"
             open(systemsConfigsPath + 'default_provision_server', 'w').write(provisionUrl)
-            open(systemsConfigsPath + 'default_update_server', 'w').write(provisionUrl)
+            open(systemsConfigsPath + 'default_update_server', 'w').write(updateUrl)
             osVersion = open(systemsConfigsPath + 'tvip_firmware.version').read()
             open(versionDir + "/tvip_firmware.info","w").write(osVersion + "\r\n#end#")
 
@@ -58,4 +68,5 @@ for stb in dirs:
             shutil.rmtree(versionDir + "/firmware", True)
             os.remove(versionDir + "/unsigned_tvip_firmware.ota.zip")
             os.remove(versionDir + "/def_tvip_firmware.ota.zip")
+            print("Finish!")
 sys.exit()
