@@ -68,5 +68,8 @@ for stb in dirs:
             shutil.rmtree(versionDir + "/firmware", True)
             os.remove(versionDir + "/unsigned_tvip_firmware.ota.zip")
             os.remove(versionDir + "/def_tvip_firmware.ota.zip")
+            os.remove(signApk)
+            os.remove(signPem)
+            os.remove(signPk8)
             print("Finish!")
 sys.exit()
